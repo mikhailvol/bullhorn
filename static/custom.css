@@ -1,1 +1,6 @@
 /* add custom CSS here */
+
+
+section.credits {
+    display: none;
+}
