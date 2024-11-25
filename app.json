@@ -9,7 +9,7 @@
     "rtf",
     "odt"
   ],
-  "companyName": "[ NXT PRO ]",
+  "companyName": "NXT PRO",
   "companyLogoPath": "",
   "companyUrl": "",
   "careersUrl": "",
@@ -32,9 +32,9 @@
   "maxUploadSize": 5242880,
   "service": {
     "batchSize": 500,
-    "corpToken": "[ CK3574 ]",
+    "corpToken": "CK3574",
     "port": null,
-    "swimlane": "[ 44 ]",
+    "swimlane": "44",
     "fields": [
       "id",
       "title",
