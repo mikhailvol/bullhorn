@@ -6,6 +6,6 @@ section.credits {
 }
 
 
-[data-automation-id="back-button"] {
-    display: none;
-  }
+button[theme="dialogue"][icon="bhi-previous"][data-automation-id="back-button"] {
+    display: none !important;
+}
