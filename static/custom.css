@@ -4,3 +4,8 @@
 section.credits {
     display: none;
 }
+
+
+[data-automation-id="back-button"] {
+    display: none;
+  }
