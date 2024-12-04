@@ -10,6 +10,4 @@ button[theme="dialogue"][icon="bhi-previous"][data-automation-id="back-button"] 
     display: none !important;
 }
 
-.novo-header.condensed{
-display:none !important;
-}
+
