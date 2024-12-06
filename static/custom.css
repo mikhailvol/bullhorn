@@ -13,3 +13,7 @@ button[theme="dialogue"][icon="bhi-previous"][data-automation-id="back-button"] 
 .novo-header{
 display:none !important;
 }
+
+.background[_ngcontent-serverApp-c107]{
+    background-color: transparent !important;
+}
