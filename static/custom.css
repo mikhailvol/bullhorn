@@ -53,17 +53,3 @@ button[theme="primary"][data-automation-id="apply-button"] {
 .share {
     flex-wrap: wrap !important;
 }
-
-[theme="dialogue"] {
-    font-family: Arial, sans-serif !important; /* Replace with actual font-family */
-    color: #00273D !important;
-    font-size: 24px !important;
-    font-weight: 500 !important;
-    line-height: 1.21em !important;
-}
-
-.job-container {
-    padding: 0px !important;
-    margin: 0px !important;
-}
-
