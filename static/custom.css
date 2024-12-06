@@ -23,7 +23,6 @@ app-info-chips {
     flex-wrap: wrap;
     color: var(--blue-900, #00273D);
     text-align: center;
-    font-family: "Instrument Sans";
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
@@ -50,6 +49,15 @@ button {
     font-size: 24px;
     font-weight: 700;
     line-height: 1.21em;
+}
+
+#apply-button{
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: var(--blue-500, #0083CA);
 }
 
 .share {
