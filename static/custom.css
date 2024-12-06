@@ -58,6 +58,10 @@ button[theme="primary"][data-automation-id="apply-button"] {
     padding: 0 !important;
 }
 
+.background[_ngcontent-serverApp-c107] {
+    backround-color: transparent !important;
+}
+
 .background > div:first-of-type {
     margin: 0 !important;
     border-radius: 20px !important;
