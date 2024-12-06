@@ -55,7 +55,7 @@ button[theme="primary"][data-automation-id="apply-button"] {
 }
 
 .background[_ngcontent-serverApp-c107] {
-    backround-color: #f8f8f8 !important;
+    background-color: #f8f8f8 !important;
 }
 
 .background > div:first-of-type {
