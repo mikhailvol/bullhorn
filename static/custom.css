@@ -14,10 +14,6 @@ button[theme="dialogue"][icon="bhi-previous"][data-automation-id="back-button"] 
 display:none !important;
 }
 
-.background{
-    background-color: #f8f8f8 !important;
-}
-
 .app-info-chips {
     display: flex !important;
     flex-wrap: wrap !important;
