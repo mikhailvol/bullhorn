@@ -33,16 +33,6 @@ app-info-chips {
     padding: 32px;
 }
 
-button {
-    border-radius: 8px;
-    width: 136px;
-    height: 40px;
-    font-size: 16px;
-    line-height: 1em;
-    background-color: var(--blue--500);
-    font-family: var(--font-main);
-}
-
 .job-title {
     font-family: var(--font-main);
     color: var(--blue--900);
@@ -57,7 +47,7 @@ button#apply-button{
     justify-content: center;
     align-items: center;
     border-radius: 8px;
-    background: var(--blue-500, #0083CA);
+    background: #0083CA;
 }
 
 .share {
