@@ -41,7 +41,7 @@ display:none !important;
     line-height: 1.21em !important;
 }
 
-button[theme][theme=primary] {
+button[theme="primary"][data-automation-id="apply-button"] {
     display: flex !important;
     padding: 8px 16px !important;
     justify-content: center !important;
