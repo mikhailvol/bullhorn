@@ -17,3 +17,34 @@ display:none !important;
 .background{
     background-color: transparent !important;
 }
+
+app-info-chips {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.job-container {
+    padding: 32px;
+}
+
+button {
+    border-radius: 8px;
+    width: 136px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 1em;
+    background-color: var(--blue--500);
+    font-family: var(--font-main);
+}
+
+.job-title {
+    font-family: var(--font-main);
+    color: var(--blue--900);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.21em;
+}
+
+.share {
+flex-wrap: wrap;
+}
