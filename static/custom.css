@@ -50,12 +50,6 @@ button[theme="primary"][data-automation-id="apply-button"] {
     flex-wrap: wrap !important;
 }
 
-div[_ngcontent-serverapp-c98] {
-    padding: 32px !important;
-    
-}
-
-
 .background[_ngcontent-serverApp-c107] .job-container[_ngcontent-serverApp-c107]{
     margin: 0 !important;
     border-radius: 20px !important;
