@@ -21,6 +21,13 @@ display:none !important;
 app-info-chips {
     display: flex;
     flex-wrap: wrap;
+    color: var(--blue-900, #00273D);
+    text-align: center;
+    font-family: "Instrument Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 168%; /* 23.52px */
 }
 
 .job-container {
