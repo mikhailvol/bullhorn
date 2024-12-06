@@ -29,10 +29,6 @@ display:none !important;
     line-height: 168% !important; /* 23.52px */
 }
 
-.job-container {
-    padding: 32px !important;
-}
-
 .job-title {
     font-family: Arial, sans-serif !important; /* Replace with actual font-family */
     color: #00273D !important;
