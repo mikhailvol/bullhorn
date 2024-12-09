@@ -1,13 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Select the "Apply Now" button
     const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
-
-    // Select the target container where the modal content should be moved
     const targetContainer = document.querySelector('.job-container');
+
+    // Debugging logs
+    console.log('Apply Button:', applyButton);
+    console.log('Target Container:', targetContainer);
 
     // Check if both elements exist
     if (applyButton && targetContainer) {
         applyButton.addEventListener('click', () => {
+            console.log('Apply button clicked!'); // Debugging
+
             // Wait for the modal to be added to the DOM
             const observer = new MutationObserver(() => {
                 const modalContainer = document.querySelector('novo-modal-container');
