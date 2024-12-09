@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Find the button using its `data-automation-id` attribute
     const button = document.querySelector('button[data-automation-id="apply-button"]');
-
+    console.log("123");
     // Check if the button exists
     if (button) {
         console.log('Button found:', button);
