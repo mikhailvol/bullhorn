@@ -1,18 +1,24 @@
 // Wait for the DOM to fully load
 document.addEventListener('DOMContentLoaded', () => {
-    // Select all buttons on the page
-    const buttons = document.querySelectorAll('button');
+    // Select the parent element
+const parentElement = document.querySelector('.share');
 
-    // Iterate over all buttons
-    buttons.forEach(button => {
-        // Add a click event listener to each button
-        button.addEventListener('click', () => {
-            console.log('Button clicked:', button);
+// Check if the parent element exists
+if (parentElement) {
+    console.log('Parent element found. Attempting to find and click the button...');
+    // Select the first child button
+    const firstButton = parentElement.querySelector('button[data-automation-id="apply-button"]');
+    
+    if (firstButton) {
+        firstButton.click(); // Emulate a click on the first child button
+        console.log('Button clicked successfully.');
+    } else {
+        console.log('Button not found within the parent element.');
+    }
+} else {
+    console.log('Parent element not found.');
+}
 
-            // Simulate a click on the button
-            button.click();
-        });
-    });
 });
 
 
