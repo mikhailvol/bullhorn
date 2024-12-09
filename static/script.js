@@ -1,21 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Find the button using its `data-automation-id` attribute
+   // Wrap in page load
+window.addEventListener('load', () => {
+    // Log all buttons on the page
+    const allButtons = document.querySelectorAll('button');
+    console.log("All buttons found on the page:", allButtons);
+
+    // Find the specific button using its `data-automation-id`
     const button = document.querySelector('button[data-automation-id="apply-button"]');
-    console.log("123");
+
     // Check if the button exists
     if (button) {
-        console.log('Button found:', button);
+        console.log("Specific button found:", button);
 
-        // Log when the button is clicked
+        // Attach an event listener to log when the button is clicked
         button.addEventListener('click', () => {
-            console.log('Button was clicked!');
+            console.log("The specific button was clicked!");
         });
 
-        // Emulate a click on the button and log it
-        console.log('Triggering button click...');
+        // Emulate a click to demonstrate functionality
+        console.log("Emulating a click on the button...");
         button.click();
     } else {
-        console.error('Button not found!');
+        console.log("The specific button was not found.");
     }
+});
+
 });
 
