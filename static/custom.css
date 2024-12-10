@@ -72,7 +72,7 @@ app-job-details[_nghost-serverapp-c107] {
 
 novo-modal-container {
     background: transparent !important;
-    min-height:700px !important:
+    max-height: 600px !important:
 }
 
 novo-modal{
@@ -86,6 +86,9 @@ button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-m
 @media screen and (max-width: 600px) {
 novo-modal {
     height:100% !important;
+}
+novo-modal-container {
+    max-height: none !important;
 }
 }
 
