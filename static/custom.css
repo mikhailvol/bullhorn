@@ -6,7 +6,7 @@ section.credits {
 }
 
 body{
-    background-color:f8f8f8 !important;
+    background-color:transparent !important;
 }
 
 button[theme="dialogue"][icon="bhi-previous"][data-automation-id="back-button"] {
