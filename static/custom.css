@@ -88,6 +88,10 @@ app-apply-modal{
     height:100% !important;
 }
 
+.novo-control-container{
+    align-items: center !important;
+}
+
 /* @media (max-width: 600px) {
 novo-modal {
     height:100% !important;
