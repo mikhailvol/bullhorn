@@ -74,6 +74,10 @@ novo-modal-container {
     background: transparent !important;
 }
 
+novo-modal{
+    margin-bottom:0px !important;
+}
+
 button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-modal-cancel"][side="right"] {
     display: none !important;
 }
