@@ -92,7 +92,7 @@ novo-modal {
     height:100% !important;
 }
 novo-modal-container {
-    height: 100% !important;
+    height: 100%;
 }
 }
 
