@@ -71,7 +71,6 @@ app-job-details[_nghost-serverapp-c107] {
 }
 
 novo-modal-container {
-    max-height: 600px !important;
     background: transparent !important;
 }
 
@@ -81,6 +80,12 @@ novo-modal{
 
 button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-modal-cancel"][side="right"] {
     display: none !important;
+}
+
+@media screen and (min-width: 600px) {
+novo-modal-container {
+    max-height: 600px !important;
+}
 }
 
 @media screen and (max-width: 600px) {
