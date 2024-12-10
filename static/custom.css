@@ -82,7 +82,7 @@ button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-m
     display: none !important;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 600px) {
 novo-modal-container {
     max-height: 600px !important;
 }
@@ -92,9 +92,9 @@ novo-modal-container {
 novo-modal {
     height:100% !important;
 }
-novo-modal-container {
+/* novo-modal-container {
     max-height: none !important;
-}
+} */
 }
 
 
