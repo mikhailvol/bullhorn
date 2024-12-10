@@ -86,7 +86,7 @@ app-apply-modal{
     height:100% !important;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 600px) {
 novo-modal-container {
     height: 575px !important;
 }
