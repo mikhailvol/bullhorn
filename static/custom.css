@@ -73,3 +73,8 @@ app-job-details[_nghost-serverapp-c107] {
 novo-modal-container {
     background: transparent !important;
 }
+
+button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-modal-cancel"][side="right"] {
+    display: none !important;
+}
+
