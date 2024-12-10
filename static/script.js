@@ -24,7 +24,7 @@ window.addEventListener('message', (event) => {
                 const closeButton = modalContainer.querySelector('button[icon="bhi-times"]');
                 if (closeButton) {
                     closeButton.addEventListener('click', () => {
-                        console.log('Modal closed, removing overlay.');
+                        console.log('Modal closed, removing overlaay.');
                         overlay.remove();
                     });
                 }
