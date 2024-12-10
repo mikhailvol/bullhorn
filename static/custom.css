@@ -72,11 +72,11 @@ app-job-details[_nghost-serverapp-c107] {
 
 novo-modal-container {
     background: transparent !important;
+    height:575px !important;
 }
 
 novo-modal{
     margin-bottom:0px !important;
-    height:575px !important;
 }
 
 button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-modal-cancel"][side="right"] {
