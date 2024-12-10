@@ -66,10 +66,6 @@ button[theme="primary"][data-automation-id="apply-button"] {
     max-width: 996px !important;
 }
 
-[data-gr-ext-installed] {
-background-color: #F8F8F8 !important;
-}
-
 app-job-details[_nghost-serverapp-c107] {
     display:none !important;
 }
