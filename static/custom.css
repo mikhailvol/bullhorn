@@ -78,11 +78,10 @@ button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-m
     display: none !important;
 }
 
-<style>
 @media screen and (max-width: 600px) {
 novo-modal[_ngcontent-serverapp-c104] {
     height:100% !important;
 }
 }
-</style>
+
 
