@@ -86,13 +86,13 @@ app-apply-modal{
     height:100% !important;
 }
 
-@media screen and (min-width: 600px) {
+@media (min-width: 600px) {
 novo-modal-container {
     height: 575px !important;
 }
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 600px) {
 novo-modal {
     height:100% !important;
 }
