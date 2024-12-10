@@ -69,3 +69,7 @@ button[theme="primary"][data-automation-id="apply-button"] {
 app-job-details[_nghost-serverapp-c107] {
     display:none !important;
 }
+
+novo-modal-container {
+    background: transparent !important;
+}
