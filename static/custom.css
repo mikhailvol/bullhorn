@@ -78,6 +78,8 @@ novo-modal-container {
 novo-modal{
     margin-bottom:0px !important;
     max-width:none !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
 }
 
 button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-modal-cancel"][side="right"] {
