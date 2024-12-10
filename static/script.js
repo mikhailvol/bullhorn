@@ -1,32 +1,39 @@
-// Listen for messages from the parent page
 window.addEventListener('message', (event) => {
-    // Validate the origin of the message (replace with the parent domain for better security)
-    if (event.origin !== 'https://your-parent-domain.com') {
-        return; // Ignore messages from unknown origins
-    }
+    if (event.data.action === 'observeAndOverlay') {
+        const observer = new MutationObserver(() => {
+            const modalContainer = document.querySelector('novo-modal-container');
 
-    const { action } = event.data;
+            if (modalContainer && !document.querySelector('.modal-overlay')) {
+                console.log('Modal detected, adding overlay.');
 
-    if (action === 'initializeOverlay') {
-        // Create and style the overlay
-        const overlay = document.createElement('div');
-        overlay.id = 'custom-overlay';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        overlay.style.display = 'none';
-        overlay.style.zIndex = '9999';
+                // Create the overlay element
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                overlay.style.zIndex = '999'; // Ensure it appears above other elements
 
-        // Append the overlay to the iframe document
-        document.body.appendChild(overlay);
-    } else if (action === 'showOverlay') {
-        // Display the overlay when the apply button is clicked
-        const overlay = document.getElementById('custom-overlay');
-        if (overlay) {
-            overlay.style.display = 'block';
-        }
+                // Add overlay to the body
+                document.body.appendChild(overlay);
+
+                // Remove overlay when modal is closed
+                const closeButton = modalContainer.querySelector('button[icon="bhi-times"]');
+                if (closeButton) {
+                    closeButton.addEventListener('click', () => {
+                        console.log('Modal closed, removing overlay.');
+                        overlay.remove();
+                    });
+                }
+
+                observer.disconnect(); // Stop observing after overlay is added
+            }
+        });
+
+        // Start observing the body for modal container visibility
+        observer.observe(document.body, { childList: true, subtree: true });
     }
 });
