@@ -1,24 +1,32 @@
 // Listen for messages from the parent page
 window.addEventListener('message', (event) => {
-    // Validate the origin of the message
-    if (event.origin !== 'https://nxtpro.webflow.io') {
+    // Validate the origin of the message (replace with the parent domain for better security)
+    if (event.origin !== 'https://your-parent-domain.com') {
         return; // Ignore messages from unknown origins
     }
 
-    if (event.data.action === 'findAndClickButton') {
-        const observer = new MutationObserver(() => {
-            const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
-            
-            if (applyButton) {
-                console.log('Button found:', applyButton);
-                applyButton.click(); // Emulate the click
-                console.log('Button clicked successfully.');
-                observer.disconnect(); // Stop observing after clicking
-            }
-        });
+    const { action } = event.data;
 
-        // Start observing the document body for child nodes (e.g., the button)
-        observer.observe(document.body, { childList: true, subtree: true });
+    if (action === 'initializeOverlay') {
+        // Create and style the overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'custom-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        overlay.style.display = 'none';
+        overlay.style.zIndex = '9999';
+
+        // Append the overlay to the iframe document
+        document.body.appendChild(overlay);
+    } else if (action === 'showOverlay') {
+        // Display the overlay when the apply button is clicked
+        const overlay = document.getElementById('custom-overlay');
+        if (overlay) {
+            overlay.style.display = 'block';
+        }
     }
 });
-
