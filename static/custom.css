@@ -72,6 +72,7 @@ app-job-details[_nghost-serverapp-c107] {
 
 novo-modal-container {
     background: transparent !important;
+    min-height:700px !important:
 }
 
 novo-modal{
