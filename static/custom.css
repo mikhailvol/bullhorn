@@ -76,6 +76,7 @@ novo-modal-container {
 
 novo-modal{
     margin-bottom:0px !important;
+    height:575px !important;
 }
 
 button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-modal-cancel"][side="right"] {
@@ -84,12 +85,6 @@ button[_ngcontent-serverapp-c104][theme="standard"][data-automation-id="create-m
 
 app-apply-modal{
     height:100% !important;
-}
-
-@media (min-width: 600px) {
-novo-modal-container {
-    height: 575px !important;
-}
 }
 
 @media (max-width: 600px) {
