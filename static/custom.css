@@ -73,3 +73,7 @@ body[data-new-gr-c-s-check-loaded="14.1211.0"][data-gr-ext-installed][data-demow
 [data-gr-ext-installed] {
 background-color: #F8F8F8 !important;
 }
+
+app-job-details[_nghost-serverapp-c107] {
+    display:none !important;
+}
