@@ -30,16 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Check button state on page load
     sendMessageToParent();
 
-    // Attach event listener for form submission
-    const formSubmitButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
-    if (formSubmitButton) {
-        formSubmitButton.addEventListener('click', () => {
-            console.log('Form submission detected. Waiting for button state to update...');
+    // Attach MutationObserver to monitor form changes
+    const formObserver = new MutationObserver(() => {
+        const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
+        if (appliedButton) {
+            console.log('Applied button detected after form submission.');
+            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
+            formObserver.disconnect(); // Stop observing after notification
+        }
+    });
 
-            // Use a short delay to check for the applied button state after submission
-            setTimeout(() => {
-                sendMessageToParent();
-            }, 3000); // Adjust delay time if necessary
-        });
+    // Look for the modal form element
+    const modalForm = document.querySelector('novo-modal form');
+    if (modalForm) {
+        console.log('Monitoring form for changes.');
+        formObserver.observe(modalForm, { attributes: true, childList: true, subtree: true });
     }
 });
