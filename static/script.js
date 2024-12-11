@@ -1,45 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Create a flag to prevent repeated actions
+    let buttonActionHandled = false;
+    let novoToastHandled = false;
+
     // Create a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(() => {
+        if (buttonActionHandled) return; // Exit if the button action is already handled
+
         const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
         const targetDiv = document.querySelector('div[_ngcontent-serverapp-c98]');
 
-        // Check for apply button and click it
         if (applyButton) {
             console.log('Apply button found:', applyButton);
             applyButton.click(); // Emulate the click
             console.log('Apply button clicked successfully.');
-        }
-
-        // Check for applied button
-        if (appliedButton) {
+            window.parent.postMessage({ status: 'clicked', message: 'The apply button was clicked.' }, '*');
+            buttonActionHandled = true;
+        } else if (appliedButton) {
             console.log('Applied button found:', appliedButton);
-            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
-            observer.disconnect(); // Stop observing after notification
+            window.parent.postMessage({ status: 'applied', message: 'The button is already applied.' }, '*');
+            buttonActionHandled = true;
         }
 
-        // Monitor the target div for the addition of <novo-toast>
-        if (targetDiv && targetDiv.querySelector('novo-toast')) {
-            console.log('<novo-toast> element detected inside target div.');
-            window.parent.postMessage({ status: 'toast-detected', message: '<novo-toast> element added.' }, '*');
-            observer.disconnect(); // Stop observing after toast detection
+        if (targetDiv && !novoToastHandled) {
+            const divObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.addedNodes) {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.tagName === 'NOVO-TOAST') {
+                                console.log('Novo-toast element added:', node);
+                                window.parent.postMessage({ status: 'applied', message: 'Novo-toast element was added.' }, '*');
+                                novoToastHandled = true;
+                                divObserver.disconnect(); // Stop observing after the element is added
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Observe the target div for child additions
+            divObserver.observe(targetDiv, { childList: true });
         }
     });
 
-    // Start observing the document body for child nodes (e.g., the button and target div changes)
+    // Start observing the document body for child nodes (e.g., the button or target div)
     observer.observe(document.body, { childList: true, subtree: true });
-
-    // Secondary observer for tracking if the apply button is not applied
-    const noApplyObserver = new MutationObserver(() => {
-        const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-
-        if (!appliedButton) {
-            console.log('Applied button not found.');
-            window.parent.postMessage({ status: 'not-applied', message: 'The button is not applied.' }, '*');
-        }
-    });
-
-    // Start observing for cases where the button is not applied
-    noApplyObserver.observe(document.body, { childList: true, subtree: true });
 });
