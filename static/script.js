@@ -1,49 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Create a MutationObserver to monitor changes in the DOM
+    // Function to send a message to the parent window
+    const sendMessageToParent = (status, message) => {
+        window.parent.postMessage({ status, message }, '*');
+    };
+
+    // Monitor the apply button
     const observer = new MutationObserver(() => {
         const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-        const formSubmitButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
+        const formButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
 
         if (applyButton) {
             console.log('Apply button found:', applyButton);
             applyButton.click(); // Emulate the click
             console.log('Apply button clicked successfully.');
-            observer.disconnect(); // Stop observing after clicking
         } else if (appliedButton) {
             console.log('Applied button found:', appliedButton);
-
-            // Send a postMessage to the parent window to notify that the button is applied
-            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
-
-            observer.disconnect(); // Stop observing after notification
+            sendMessageToParent('applied', 'The button is applied.');
         }
 
-        if (formSubmitButton) {
-            formSubmitButton.addEventListener('click', () => {
-                console.log('Form submit button clicked. Monitoring status...');
-
-                // Recheck applied button status after form submission
-                const checkAppliedButton = () => {
-                    const reappliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-                    if (reappliedButton) {
-                        console.log('Applied button confirmed after form submission.');
-                        window.parent.postMessage({ status: 'applied', message: 'Form submitted successfully, and button remains applied.' }, '*');
-                        clearInterval(checkInterval);
+        // Monitor form submission
+        if (formButton) {
+            const formObserver = new MutationObserver(() => {
+                if (!formButton.hasAttribute('disabled')) {
+                    // Form submission succeeded if apply button stays applied
+                    const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
+                    if (appliedButton) {
+                        console.log('Form submission succeeded.');
+                        sendMessageToParent('applied', 'Form submitted successfully and button is applied.');
+                    } else {
+                        console.log('Form submission failed.');
+                        sendMessageToParent('error', 'Form submission failed.');
                     }
-                };
-
-                // Poll for status after form submission
-                const checkInterval = setInterval(checkAppliedButton, 1000);
-
-                setTimeout(() => {
-                    clearInterval(checkInterval);
-                    console.log('Stopped checking for applied button after timeout.');
-                }, 10000); // Stop checking after 10 seconds
+                    formObserver.disconnect(); // Stop observing
+                }
             });
+
+            formObserver.observe(formButton, { attributes: true, attributeFilter: ['disabled'] });
         }
     });
 
-    // Start observing the document body for child nodes (e.g., the button)
+    // Start observing the document body for changes
     observer.observe(document.body, { childList: true, subtree: true });
 });
