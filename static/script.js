@@ -3,13 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new MutationObserver(() => {
         const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
+        const targetDiv = document.querySelector('div[_ngcontent-serverapp-c98]');
 
+        // Check for the apply button and click it
         if (applyButton) {
             console.log('Apply button found:', applyButton);
             applyButton.click(); // Emulate the click
             console.log('Apply button clicked successfully.');
             observer.disconnect(); // Stop observing after clicking
-        } else if (appliedButton) {
+        } 
+        // Check for the applied button and send a message
+        else if (appliedButton) {
             console.log('Applied button found:', appliedButton);
 
             // Send a postMessage to the parent window to notify that the button is applied
@@ -18,28 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
             observer.disconnect(); // Stop observing after notification
         }
 
-        // Track the div with _ngcontent-serverapp-c98 attribute
-        const targetDiv = document.querySelector('div[_ngcontent-serverapp-c98=""]');
-        if (targetDiv) {
-            const toastObserver = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.addedNodes.length > 0) {
-                        mutation.addedNodes.forEach((node) => {
-                            if (node.nodeType === 1 && node.matches('novo-toast.growTopRight.launched.success.toast-container.show.animate')) {
-                                console.log('Success toast detected:', node);
-                                // Send a postMessage to the parent window
-                                window.parent.postMessage({ status: 'applied', message: 'Success toast displayed.' }, '*');
-                                toastObserver.disconnect(); // Stop observing after detecting the toast
-                            }
-                        });
-                    }
-                });
-            });
+        // Check for the target div and if the specific novo-toast element is added
+        if (targetDiv && targetDiv.querySelector('novo-toast.growTopRight.launched.success.toast-container.show.animate')) {
+            console.log('Novo-toast element added to the target div');
 
-            toastObserver.observe(targetDiv, { childList: true, subtree: true });
+            // Send a postMessage to the parent window
+            window.parent.postMessage({ status: 'toast-added', message: 'Novo-toast element detected.' }, '*');
+
+            observer.disconnect(); // Stop observing after the toast is detected
         }
     });
 
-    // Start observing the document body for child nodes (e.g., the button and div)
+    // Start observing the document body for child nodes (e.g., the button or toast addition)
     observer.observe(document.body, { childList: true, subtree: true });
 });
