@@ -1,46 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Function to send message to parent page
-    const sendMessageToParent = (status, message) => {
-        window.parent.postMessage({ status, message }, '*');
-    };
-
-    // Monitor changes in the DOM for the apply button
+    // Create a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(() => {
+        const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-        if (appliedButton) {
-            console.log('Applied button detected after loading.');
-            sendMessageToParent('applied', 'The button is applied after page load.');
-            observer.disconnect(); // Stop observing after the button is applied
+        const formSubmitButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
+
+        if (applyButton) {
+            console.log('Apply button found:', applyButton);
+            applyButton.click(); // Emulate the click
+            console.log('Apply button clicked successfully.');
+            observer.disconnect(); // Stop observing after clicking
+        } else if (appliedButton) {
+            console.log('Applied button found:', appliedButton);
+
+            // Send a postMessage to the parent window to notify that the button is applied
+            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
+
+            observer.disconnect(); // Stop observing after notification
+        }
+
+        if (formSubmitButton) {
+            formSubmitButton.addEventListener('click', () => {
+                console.log('Form submit button clicked. Monitoring status...');
+
+                // Recheck applied button status after form submission
+                const checkAppliedButton = () => {
+                    const reappliedButton = document.querySelector('button[data-automation-id="applied-button"]');
+                    if (reappliedButton) {
+                        console.log('Applied button confirmed after form submission.');
+                        window.parent.postMessage({ status: 'applied', message: 'Form submitted successfully, and button remains applied.' }, '*');
+                        clearInterval(checkInterval);
+                    }
+                };
+
+                // Poll for status after form submission
+                const checkInterval = setInterval(checkAppliedButton, 1000);
+
+                setTimeout(() => {
+                    clearInterval(checkInterval);
+                    console.log('Stopped checking for applied button after timeout.');
+                }, 10000); // Stop checking after 10 seconds
+            });
         }
     });
 
-    // Observe the document for button state changes
+    // Start observing the document body for child nodes (e.g., the button)
     observer.observe(document.body, { childList: true, subtree: true });
-
-    // Monitor form submission
-    const form = document.querySelector('form.novo-form');
-    if (form) {
-        form.addEventListener('submit', (event) => {
-            const applyButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
-            const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-            
-            // Check if the button is in a "loading" state
-            const isLoading = applyButton?.getAttribute('loading') === 'true';
-            
-            if (isLoading) {
-                console.log('Form submission started.');
-                sendMessageToParent('submitting', 'Form submission is in progress.');
-            }
-
-            setTimeout(() => {
-                if (appliedButton) {
-                    console.log('Applied button detected after form submission.');
-                    sendMessageToParent('applied', 'The button is applied after form submission.');
-                } else {
-                    console.log('Form submission failed or button not applied.');
-                    sendMessageToParent('failed', 'Form submission failed or button not applied.');
-                }
-            }, 2000); // Adjust timeout as needed to allow time for form processing
-        });
-    }
 });
