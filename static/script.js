@@ -1,14 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const notifyAppliedStatus = () => {
-        const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-        if (appliedButton) {
-            console.log('Applied button found:', appliedButton);
-
-            // Send a postMessage to the parent window to notify that the button is applied
-            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
-        }
-    };
-
     // Create a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(() => {
         const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
@@ -20,25 +10,36 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log('Apply button clicked successfully.');
             observer.disconnect(); // Stop observing after clicking
         } else if (appliedButton) {
-            notifyAppliedStatus();
+            console.log('Applied button found:', appliedButton);
+
+            // Send a postMessage to the parent window to notify that the button is applied
+            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
+
             observer.disconnect(); // Stop observing after notification
+        }
+
+        // Track the div with _ngcontent-serverapp-c98 attribute
+        const targetDiv = document.querySelector('div[_ngcontent-serverapp-c98=""]');
+        if (targetDiv) {
+            const toastObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.addedNodes.length > 0) {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.nodeType === 1 && node.matches('novo-toast.growTopRight.launched.success.toast-container.show.animate')) {
+                                console.log('Success toast detected:', node);
+                                // Send a postMessage to the parent window
+                                window.parent.postMessage({ status: 'applied', message: 'Success toast displayed.' }, '*');
+                                toastObserver.disconnect(); // Stop observing after detecting the toast
+                            }
+                        });
+                    }
+                });
+            });
+
+            toastObserver.observe(targetDiv, { childList: true, subtree: true });
         }
     });
 
-    // Start observing the document body for child nodes (e.g., the button)
+    // Start observing the document body for child nodes (e.g., the button and div)
     observer.observe(document.body, { childList: true, subtree: true });
-
-    // Check if the apply button is already applied on page load
-    notifyAppliedStatus();
-
-    // Monitor form submission
-    const formSubmitButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
-    if (formSubmitButton) {
-        formSubmitButton.addEventListener('click', () => {
-            console.log('Form submit button clicked. Monitoring for applied status.');
-
-            // Recheck applied button status after a delay to allow form submission processing
-            setTimeout(notifyAppliedStatus, 3000);
-        });
-    }
 });
