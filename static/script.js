@@ -1,38 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const sendMessageToParent = () => {
+    const notifyAppliedStatus = () => {
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
         if (appliedButton) {
-            console.log('Applied button detected. Sending message to parent.');
+            console.log('Applied button found:', appliedButton);
+
+            // Send a postMessage to the parent window to notify that the button is applied
             window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
         }
     };
 
-    // Monitor the apply button state on page load
-    sendMessageToParent();
-
-    // Create a MutationObserver to monitor the DOM for changes
+    // Create a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(() => {
+        const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-        if (appliedButton) {
-            console.log('Applied button detected after DOM change. Sending message to parent.');
-            window.parent.postMessage({ status: 'applied', message: 'The button has been applied.' }, '*');
-            observer.disconnect(); // Stop observing once applied button is detected
+
+        if (applyButton) {
+            console.log('Apply button found:', applyButton);
+            applyButton.click(); // Emulate the click
+            console.log('Apply button clicked successfully.');
+            observer.disconnect(); // Stop observing after clicking
+        } else if (appliedButton) {
+            notifyAppliedStatus();
+            observer.disconnect(); // Stop observing after notification
         }
     });
 
-    // Start observing the document body for changes
+    // Start observing the document body for child nodes (e.g., the button)
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Attach a listener to the form submission button, if it exists
+    // Check if the apply button is already applied on page load
+    notifyAppliedStatus();
+
+    // Monitor form submission
     const formSubmitButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
     if (formSubmitButton) {
         formSubmitButton.addEventListener('click', () => {
-            console.log('Form submission button clicked. Waiting for apply button state to update...');
+            console.log('Form submit button clicked. Monitoring for applied status.');
 
-            // Check the apply button state after a delay to account for asynchronous updates
-            setTimeout(() => {
-                sendMessageToParent();
-            }, 3000); // Adjust the delay time as needed
+            // Recheck applied button status after a delay to allow form submission processing
+            setTimeout(notifyAppliedStatus, 3000);
         });
     }
 });
