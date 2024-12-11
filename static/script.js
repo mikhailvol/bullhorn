@@ -1,43 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Send a postMessage when the page loads and button is already applied
-    const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-    if (appliedButton) {
-        window.parent.postMessage({ status: 'applied', message: 'Button is applied on page load.' }, '*');
-    }
+    // Function to send message to parent page
+    const sendMessageToParent = (status, message) => {
+        window.parent.postMessage({ status, message }, '*');
+    };
 
-    // Monitor changes to the DOM for button updates
+    // Monitor changes in the DOM for the apply button
     const observer = new MutationObserver(() => {
-        const applyButton = document.querySelector('button[data-automation-id="apply-button"]');
         const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-
-        if (applyButton) {
-            console.log('Apply button found:', applyButton);
-            applyButton.addEventListener('click', () => {
-                console.log('Apply button clicked.');
-            });
-        } else if (appliedButton) {
-            console.log('Applied button found:', appliedButton);
-            window.parent.postMessage({ status: 'applied', message: 'Button state changed to applied.' }, '*');
-            observer.disconnect(); // Stop observing after state change
+        if (appliedButton) {
+            console.log('Applied button detected after loading.');
+            sendMessageToParent('applied', 'The button is applied after page load.');
+            observer.disconnect(); // Stop observing after the button is applied
         }
     });
 
+    // Observe the document for button state changes
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Monitor the form submission
-    const form = document.querySelector('form');
+    // Monitor form submission
+    const form = document.querySelector('form.novo-form');
     if (form) {
-        form.addEventListener('submit', () => {
-            const checkLoadingInterval = setInterval(() => {
-                const formButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
-                if (formButton && formButton.getAttribute('loading') === 'false') {
-                    clearInterval(checkLoadingInterval);
-                    const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
-                    if (appliedButton) {
-                        window.parent.postMessage({ status: 'applied', message: 'Form submitted successfully, button is applied.' }, '*');
-                    }
+        form.addEventListener('submit', (event) => {
+            const applyButton = document.querySelector('button[data-automation-id="apply-modal-save"]');
+            const appliedButton = document.querySelector('button[data-automation-id="applied-button"]');
+            
+            // Check if the button is in a "loading" state
+            const isLoading = applyButton?.getAttribute('loading') === 'true';
+            
+            if (isLoading) {
+                console.log('Form submission started.');
+                sendMessageToParent('submitting', 'Form submission is in progress.');
+            }
+
+            setTimeout(() => {
+                if (appliedButton) {
+                    console.log('Applied button detected after form submission.');
+                    sendMessageToParent('applied', 'The button is applied after form submission.');
+                } else {
+                    console.log('Form submission failed or button not applied.');
+                    sendMessageToParent('failed', 'Form submission failed or button not applied.');
                 }
-            }, 500);
+            }, 2000); // Adjust timeout as needed to allow time for form processing
         });
     }
 });
